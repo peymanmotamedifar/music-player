@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="assets/style-musicPlayer.css">
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans&family=Kaushan+Script&display=swap"
+    rel="stylesheet">
+  <title>Document</title>
+</head>
+
+<body>
+  <main class="main">
+    <div class="d1">
+      <div class="d2">
+        <div class="dtop">
+          <div id="d2">
+            <span id="_time"></span>
+            <div>
+              <span class="material-symbols-outlined">signal_cellular_alt</span>
+              <span class="material-symbols-outlined">battery_horiz_050</span>
+              <span class="material-symbols-outlined">wifi</span>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="ddown">
+
+          <div class="dfig">
+            <figure class="fig">
+              <img id="_fig" src="assets/img/Enrique Hero.jpg" alt="">
+            </figure>
+
+          </div>
+
+          <span class="srange">
+            <input type="range" class="slider" min="0" step="1">
+          </span>
+
+          <div class="_timer">
+            <span>0:25</span>
+            <span>2:30</span>
+          </div>
+
+          <div class="dname">
+            <h3>Hero</h3>
+            <h2>Enrique Iglesias</h2>
+          </div>
+
+
+          <div class="icon">
+
+            <span onclick="previous()" id="skip_previous" class="material-symbols-outlined">
+              skip_previous
+            </span>
+
+
+            <span onclick="backward()" id="replay_10" class="material-symbols-outlined">
+              replay_10
+            </span>
+
+            <span onclick="p_p()">
+              <span id="pause" class="material-symbols-outlined _display">
+                pause
+              </span>
+
+              <span id="play" class="material-symbols-outlined">
+                play_arrow
+              </span>
+            </span>
+
+            <span onclick="forward()" id="forward_10" class="material-symbols-outlined">
+              forward_10
+            </span>
+
+            <span onclick="next()" id="skip_next" class="material-symbols-outlined">
+              skip_next
+            </span>
+
+          </div>
+
+
+          <div class="dvol">
+            <span id="mute">
+              <span class="material-symbols-outlined">
+                volume_down_alt
+              </span>
+            </span>
+            <input id="vol" type="range" min="0" max="1" step="0.01" value="0.08">
+          </div>
+
+
+          <div class="bt">
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <audio id="a1"></audio>
+
+
+
+
+
+  <script>
+    let t = document.getElementById('_time')
+    t.innerHTML = new Date().getHours()
+    if (new Date().getMinutes() < 10) {
+      t.innerHTML += ":0" + new Date().getMinutes()
+    } else {
+      t.innerHTML += ":" + new Date().getMinutes()
+    }
+
+    let a = document.getElementById('a1')
+    let t1 = document.querySelector('._timer>span:nth-of-type(1)');
+    let t2 = document.querySelector('._timer>span:nth-of-type(2)');
+    let _range = document.querySelector('.srange>input');
+
+    setInterval(function () {
+      let min = parseInt(a.currentTime / 60);
+      let sec = parseInt(a.currentTime % 60);
+      if (sec < 10) {
+        sec = '0' + sec
+      }
+      _range.max = parseInt(a.duration);
+      _range.value = parseInt(a.currentTime)
+      _range.value = a.currentTime
+
+      t1.innerHTML = min + ":" + sec
+      if ((a.duration) == (a.currentTime)) {
+        next()
+      }
+      let min2 = parseInt(a.duration / 60);
+      let sec2 = parseInt(a.duration % 60);
+      if (sec2 < 10) {
+        sec2 = '0' + sec2
+      }
+      t2.innerHTML = min2 + ":" + sec2
+
+    }, 10)
+
+
+    setInterval(function () {
+      let _vol = document.getElementById('vol').value
+      a.volume = _vol
+    },10)
+
+      
+
+
+    let _music = ["assets/music/66.enrique_iglesias_-_hero.mp3",
+      "assets/music/Justin-Timberlake-Mirrors-musicfeed.ir_.mp3", "assets/music/dr._dre ft snoop dogg_still_d.r.e 128.mp3",
+      "assets/music/Michael-Jackson-You-Rock-My-World-128.mp3"
+    ]
+
+    let pic = ["assets/img/Enrique Hero.jpg", "assets/img/justinTimberlake.jpg", "assets/img/still dre.jpg", "assets/img/michael Jackson.jpg"]
+
+    let musicName = ["Hero", "Mirrors", "Still D.R.E", "You Rock My World"]
+
+    let artistName = ["Enrique Iglesias", "Justin Timberlake", "Dr. Dre Ft SNOOP DOGG", "Michael Jackson"]
+
+    let n = 0
+    let _play = document.getElementById('play')
+    let _pause = document.getElementById('pause')
+    let flag = 0
+    a.src = _music[n]
+
+    function p_p() {
+
+      if (flag == 0) {
+        a.play()
+        _play.classList.add('_display')
+        _pause.classList.remove('_display')
+        flag = 1
+
+      } else {
+        a.pause()
+        _play.classList.remove('_display')
+        _pause.classList.add('_display')
+        flag = 0
+      }
+    }
+
+
+    function forward() {
+      a.currentTime += 10;
+    }
+
+    function backward() {
+      a.currentTime -= 10;
+    }
+
+    let _figure = document.getElementById('_fig')
+    let _h3 = document.querySelector('.dname>h3')
+    let _h2 = document.querySelector('.dname>h2')
+
+    function next() {
+      if (_music.length > (n + 1)) {
+        n++
+        a.src = _music[n]
+        _figure.src = pic[n]
+        _h3.innerHTML = musicName[n]
+        _h2.innerHTML = artistName[n]
+        a.play()
+        flag = 1
+        _play.classList.add('_display')
+        _pause.classList.remove('_display')
+      } else {
+        n = 0;
+        a.src = _music[n]
+        _figure.src = pic[n]
+        _h3.innerHTML = musicName[n]
+        _h2.innerHTML = artistName[n]
+        a.play()
+        flag = 1
+        _play.classList.add('_display')
+        _pause.classList.remove('_display')
+      }
+    }
+
+    function previous() {
+      if (n == 0) {
+        n = ((_music.length) - 1)
+        a.src = _music[n]
+        _figure.src = pic[n]
+        _h3.innerHTML = musicName[n]
+        _h2.innerHTML = artistName[n]
+        a.play()
+        flag = 1
+        _play.classList.add('_display')
+        _pause.classList.remove('_display')
+      } else {
+        n--;
+        a.src = _music[n]
+        _figure.src = pic[n]
+        _h3.innerHTML = musicName[n]
+        _h2.innerHTML = artistName[n]
+        a.play()
+        flag = 1
+        _play.classList.add('_display')
+        _pause.classList.remove('_display')
+      }
+
+    }
+  </script>
+
+</body>
+
+</html>
